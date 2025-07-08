@@ -1,6 +1,6 @@
 {
-  "name": "lec3-new",
-  "version": "1.0.0",
+  "name": "lec3-yash2264",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,8 +8,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "express": "^5.1.0"
-  }
+    "express": "^5.1.0",
+    "lec3-new": "^1.0.0",
+    "lec3-yash2264": "^1.0.1"
+  },
+  "description": ""
 }
