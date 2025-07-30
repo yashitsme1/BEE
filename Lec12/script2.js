@@ -7,6 +7,13 @@ let todo = {
     id: 234234,
     title: 'study at 9pm',
 }
+let todos = [{
+    id: 234234,
+    title: 'study at 9pm',
+},{
+    id: 234235,
+    title: 'play at 10pm',
+}]
 
 let todoContainer = document.querySelector('.todocontainer');
 function addTodo(todo){
