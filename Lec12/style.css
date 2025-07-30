@@ -1,0 +1,22 @@
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 150px;
+    background-color: lightblue;
+    transition: background 0.3s;
+    margin: 50px auto;
+    border-radius: 10px;
+    gap: 20px;
+}
+.box.active {
+    background-color: orange;
+}
+
+#generateBtn {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
