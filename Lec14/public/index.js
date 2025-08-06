@@ -51,7 +51,6 @@ function addUser(name,username,URL) {
     })
     .then((data)=>{
         console.log(data);
-      
     })
 }
 registrationForm.addEventListener('submit', function(e){
