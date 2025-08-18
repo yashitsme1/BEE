@@ -1,12 +1,15 @@
+const Blogs = require("../model/blogs");
+const Users = require("../model/userSchema");
+
 module.exports.postaddBlog = async (req, res) => {
     let { title, body, userId } = req.body;
     let userExists = await Users.findById(userId);
     if (userExists) {
         let newBlog = new Blogs({
-            title: title,
-            body: body,
+            title,
+            body,
             date: Date.now(),
-            userId: userId
+            userId
         });
         await newBlog.save();
         userExists.blogs.push(newBlog._id);
@@ -16,22 +19,18 @@ module.exports.postaddBlog = async (req, res) => {
             data: newBlog,
             message: "blog added successfully!!!"
         });
+    } else {
+        res.json({ success: false, message: "User not found" });
     }
 };
-module.exports.getReadBlog = async (req, res) => {
-    let { id } = req.params;
-    let blog = await Blogs.findOne({ _id: id });
-    res.json({
-        success: true,
-        data: blog
-    });
+
+module.exports.getAllBlogs = async (req, res) => {
+    let allBlogs = await Blogs.find();
+    res.json({ success: true, data: allBlogs });
 };
 
-module.exports.getlogs = async (req, res) => {
+module.exports.getBlogById = async (req, res) => {
     let { id } = req.params;
     let blog = await Blogs.findOne({ _id: id });
-    res.json({
-        success: true,
-        data: blog
-    });
+    res.json({ success: true, data: blog });
 };

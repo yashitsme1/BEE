@@ -1,37 +1,53 @@
-module.exports.postaddBlog = async (req, res) => {
-    let { title, body, userId } = req.body;
-    let userExists = await Users.findById(userId);
-    if (userExists) {
-        let newBlog = new Blogs({
-            title: title,
-            body: body,
-            date: Date.now(),
-            userId: userId
-        });
-        await newBlog.save();
-        userExists.blogs.push(newBlog._id);
-        await userExists.save();
-        res.json({
-            success: true,
-            data: newBlog,
-            message: "blog added successfully!!!"
-        });
-    }
-};
-module.exports.getReadBlog = async (req, res) => {
-    let { id } = req.params;
-    let blog = await Blogs.findOne({ _id: id });
+const Users = require("../model/userSchema");
+
+module.exports.postAddUser = async (req, res) => {
+    let { email, username, password } = req.body;
+    let newUser = new Users({ email, username, password });
+    await newUser.save();
     res.json({
         success: true,
-        data: blog
+        data: newUser,
+        message: "user added successfully!!!"
     });
 };
 
-module.exports.getlogs = async (req, res) => {
-    let { id } = req.params;
-    let blog = await Blogs.findOne({ _id: id });
+module.exports.getAllUsers = async (req, res) => {
+    let allUsers = await Users.find();
     res.json({
         success: true,
-        data: blog
+        data: allUsers
     });
+};
+
+module.exports.getUserById = async (req, res) => {
+    let { id } = req.params;
+    let userExist = await Users.findOne({ _id: id }).populate("blogs");
+    if (userExist) {
+        res.json({
+            success: true,
+            data: userExist
+        });
+    } else {
+        res.json({
+            success: false,
+            message: "User not found"
+        });
+    }
+};
+
+module.exports.deleteUser = async (req, res) => {
+    let { id } = req.params;
+    let userExist = await Users.findById(id);
+    if (!userExist) return res.json({ success: false, message: "User not found" });
+    await Users.findByIdAndDelete(id);
+    res.json({ success: true, message: "User deleted successfully" });
+};
+
+module.exports.updateUser = async (req, res) => {
+    let { id } = req.params;
+    let { email, username, password } = req.body;
+    let userExist = await Users.findById(id);
+    if (!userExist) return res.json({ success: false, message: "User not found" });
+    let updatedUser = await Users.findByIdAndUpdate(id, { email, username, password }, { new: true });
+    res.json({ success: true, message: "User updated successfully", data: updatedUser });
 };
